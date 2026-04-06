@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Documentation — StockMind</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .doc h2 { font-size: 1.05rem; margin: 1.25rem 0 0.5rem; }
+    .doc p, .doc li { color: var(--muted); font-size: 0.95rem; }
+    .doc ul { margin: 0.25rem 0 0; padding-left: 1.2rem; }
+    .back { margin-top: 1.5rem; }
+    .back a { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="wrap">
+      <h1 class="logo">Documentation</h1>
+      <p class="tagline">Problème métier · Données · Modèle · Intégration web</p>
+    </div>
+  </header>
+
+  <main class="wrap main doc">
+    <section class="card">
+      <h2>1. Problème métier</h2>
+      <p>Aider à décider <strong>combien commander</strong> en s’appuyant sur le stock, la demande (ventes) et le <strong>temps de livraison</strong> (nombre de jours entre la commande et la réception), plutôt qu’une règle fixe.</p>
+    </section>
+    <section class="card">
+      <h2>2. Données (Pandas, visualisation Matplotlib)</h2>
+      <p>Le fichier <code>data/stock_synthetic.csv</code> est généré par <code>scripts/generate_data.py</code>. Le notebook <code>notebooks/analyse.ipynb</code> présente nettoyage, graphiques et entraînement.</p>
+      <ul>
+        <li>Variables : catégorie, stock, ventes/semaine, jours de livraison, mois</li>
+        <li>Cible : quantité recommandée (<code>recommended_order_qty</code>)</li>
+      </ul>
+      <p><em>Données synthétiques — à mentionner dans le rapport.</em></p>
+    </section>
+    <section class="card">
+      <h2>3. Modèle (scikit-learn)</h2>
+      <p><strong>Random Forest</strong> dans un pipeline (prétraitement + régression). Entraînement : <code>python scripts/train_model.py</code> → <code>models/stock_model.joblib</code>.</p>
+    </section>
+    <section class="card">
+      <h2>4. Intégration web</h2>
+      <p>Le backend <strong>Flask</strong> gère une <strong>liste de produits</strong> (fichier <code>data/products.json</code>) via <code>GET/POST /api/products</code>, <code>PATCH/DELETE /api/products/&lt;id&gt;</code>, et la suggestion <code>POST /api/products/&lt;id&gt;/suggest</code>. Le simulateur utilise <code>POST /api/predict</code>. L’interface est en HTML/CSS/JS (<code>fetch</code>).</p>
+    </section>
+    <p class="back"><a href="/">← Retour au simulateur</a></p>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap"><small>StockMind — mini-projet IA & développement</small></div>
+  </footer>
+</body>
+</html>

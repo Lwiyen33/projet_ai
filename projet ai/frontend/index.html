@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>StockMind — Tableau de bord</title>
+  <meta name="description" content="Gestion de stock et recommandations IA.">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="wrap header-bar">
+      <div class="header-brand">
+        <h1 class="logo">StockMind</h1>
+        <p class="tagline">Tableau de bord · inventaire · IA</p>
+      </div>
+      <a class="header-doc" href="/documentation.html">Documentation</a>
+    </div>
+  </header>
+
+  <main class="wrap main">
+    <p id="model-warning" class="warn hidden" role="status"></p>
+    <p id="global-msg" class="msg hidden" role="status"></p>
+
+    <section class="dashboard" aria-label="Indicateurs">
+      <article class="stat-card">
+        <p class="stat-label">Références</p>
+        <p class="stat-value" id="dash-count">—</p>
+      </article>
+      <article class="stat-card">
+        <p class="stat-label">Stock total</p>
+        <p class="stat-value"><span id="dash-stock">—</span> <span class="stat-unit">u.</span></p>
+      </article>
+      <article class="stat-card stat-card--accent">
+        <p class="stat-label">Modèle IA</p>
+        <p class="stat-badge" id="dash-model">—</p>
+      </article>
+    </section>
+
+    <div class="layout">
+      <div class="layout__main">
+        <section class="card card--table">
+          <div class="card-head">
+            <h2 class="card-title">Inventaire</h2>
+          </div>
+          <div class="table-wrap">
+            <table class="table" id="table-products">
+              <thead>
+                <tr>
+                  <th>Nom</th>
+                  <th>Catégorie</th>
+                  <th>Stock</th>
+                  <th>Ventes / sem.</th>
+                  <th>Livraison (j)</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="tbody-products">
+                <tr><td colspan="6" class="cell-empty">Chargement…</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="card-head">
+            <h2 class="card-title">Nouveau produit</h2>
+          </div>
+          <form id="form-add" class="form form--compact">
+            <div class="row">
+              <div class="field">
+                <label for="add-name">Nom</label>
+                <input type="text" id="add-name" required maxlength="120" placeholder="Nom du produit">
+              </div>
+              <div class="field">
+                <label for="add-category">Catégorie</label>
+                <select id="add-category" required>
+                  <option value="Electronique">Electronique</option>
+                  <option value="Alimentaire">Alimentaire</option>
+                  <option value="Textile">Textile</option>
+                  <option value="Outillage">Outillage</option>
+                </select>
+              </div>
+            </div>
+            <div class="row row--3">
+              <div class="field">
+                <label for="add-stock">Stock initial</label>
+                <input type="number" id="add-stock" min="0" step="1" value="0" required>
+              </div>
+              <div class="field">
+                <label for="add-sales">Ventes moy. / sem.</label>
+                <input type="number" id="add-sales" min="0" step="0.1" value="10" required>
+              </div>
+              <div class="field">
+                <label for="add-lead">Jours de livraison</label>
+                <span class="field-hint">Après ta commande, combien de jours avant de recevoir le colis.</span>
+                <input type="number" id="add-lead" min="1" step="1" value="14" required title="Temps entre commande et réception">
+              </div>
+            </div>
+            <button type="submit" class="btn" id="btn-add">Ajouter</button>
+          </form>
+        </section>
+      </div>
+
+      <aside class="layout__aside">
+        <section class="card card--sticky">
+          <div class="card-head">
+            <h2 class="card-title">Simulateur IA</h2>
+          </div>
+          <p class="card-hint">Prédiction hors inventaire (valeurs libres).</p>
+          <form id="form-predict" class="form">
+            <div class="field">
+              <label for="category">Catégorie</label>
+              <select id="category" required>
+                <option value="Electronique">Electronique</option>
+                <option value="Alimentaire">Alimentaire</option>
+                <option value="Textile">Textile</option>
+                <option value="Outillage">Outillage</option>
+              </select>
+            </div>
+            <div class="row">
+              <div class="field">
+                <label for="current_stock">Stock actuel</label>
+                <input type="number" id="current_stock" min="0" step="1" value="120" required>
+              </div>
+              <div class="field">
+                <label for="avg_weekly_sales">Ventes moy. / sem.</label>
+                <input type="number" id="avg_weekly_sales" min="0" step="0.1" value="35" required>
+              </div>
+            </div>
+            <div class="row">
+              <div class="field">
+                <label for="lead_time_days">Jours de livraison</label>
+                <input type="number" id="lead_time_days" min="1" step="1" value="14" required title="Jours entre commande et livraison">
+              </div>
+              <div class="field">
+                <label for="month">Mois</label>
+                <input type="number" id="month" min="1" max="12" step="1" value="6" required>
+              </div>
+            </div>
+            <button type="submit" class="btn btn--secondary" id="btn-submit">Calculer</button>
+          </form>
+          <div id="result" class="result hidden" role="status" aria-live="polite">
+            <p class="result-label">Recommandation</p>
+            <p class="result-value"><span id="qty-value">—</span> <span class="unit">unités</span></p>
+          </div>
+          <div id="error-predict" class="error hidden" role="alert"></div>
+        </section>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <small>Python · Pandas · NumPy · Matplotlib · scikit-learn · HTML · CSS · JS</small>
+    </div>
+  </footer>
+
+  <script src="/js/app.js" defer></script>
+</body>
+</html>

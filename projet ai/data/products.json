@@ -1,0 +1,34 @@
+[
+  {
+    "id": 1,
+    "name": "Casque sans fil",
+    "category": "Electronique",
+    "stock": 57,
+    "avg_weekly_sales": 14.0,
+    "lead_time_days": 12
+  },
+  {
+    "id": 2,
+    "name": "Cafe grain 1kg",
+    "category": "Alimentaire",
+    "stock": 120,
+    "avg_weekly_sales": 55.0,
+    "lead_time_days": 7
+  },
+  {
+    "id": 3,
+    "name": "T-shirt uni",
+    "category": "Textile",
+    "stock": 200,
+    "avg_weekly_sales": 40.0,
+    "lead_time_days": 21
+  },
+  {
+    "id": 4,
+    "name": "tst",
+    "category": "Electronique",
+    "stock": 200,
+    "avg_weekly_sales": 40.0,
+    "lead_time_days": 2
+  }
+]
